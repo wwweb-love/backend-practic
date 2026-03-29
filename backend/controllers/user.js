@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt")
 const User = require("../models/User")
-// login
+const generateToken = require("../helpers/generateToken")
 
-    // register
+// register
 
 async function register(login, password) {
     if (!password) {
@@ -13,13 +13,35 @@ async function register(login, password) {
     return user
 }
 
+// login
 
-    // logout
+async function login(login, password) {
+    const user = await User.findOne({ login })
+
+    if (!user) {
+        throw new Error("User not found")
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password)
+
+    if (!isPasswordMatch) {
+        throw new Error("Wrong password")
+    }
+
+    const token = generateToken({id: user.id})
+
+    return { token, user }
+}
+
+// logout
+
+
 
     // edit (role)
 
     // delete (user)
 
 module.exports = {
-    register
+    register,
+    login
 }
