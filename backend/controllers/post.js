@@ -58,6 +58,5 @@ module.exports = {
     editPost,
     deletePost,
     getPosts,
-    getPost,
-    addPost
+    getPost
 }
