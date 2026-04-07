@@ -1,7 +1,9 @@
+import { request } from "../utils/request"
+import { addComment } from "./add-comment"
 import { setPostData } from "./set-post-data"
 
 
-export const addCommentAsync = (serverRequest, userId, postId, content) =>
+export const addCommentAsync = (postId, content) =>
     (dispatch) =>
-        serverRequest("fetchComment", userId, postId, content).then((loadedData) =>
-            dispatch(setPostData(loadedData.res)))
+        request(`/posts/${postId}/comments`, "POST", { content }).then((comment) =>
+            dispatch(addComment(comment.data)))

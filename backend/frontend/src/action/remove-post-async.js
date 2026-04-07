@@ -1,4 +1,5 @@
+import { request } from "../utils/request"
 
-export const removePostAsync = (serverRequest, id) => {
-    return serverRequest("removePost", id)
+export const removePostAsync = (id) => {
+    return request(`/posts/${id}`, "DELETE")
 }

@@ -4,19 +4,17 @@ import { useParams, useMatch } from "react-router";
 import styled from "styled-components";
 import { loadPostAsync, RESET_POST_DATA } from "../../action";
 import { selectPost } from "../../selectors";
-import { useServerRequest } from "../../hooks";
 import { PostContent, Comments } from "./components";
 import { PostForm } from "./components/post-form";
 import { Content } from "../../components";
 
 const PageContainer = ({ className }) => {
     const dispatch = useDispatch();
-    const requestServer = useServerRequest();
     const params = useParams();
-    const isCreating = useMatch("/post/");
+    const isCreating = useMatch("/post");
     const isEditing = useMatch("/post/:id/edit");
     const post = useSelector(selectPost);
-    const [error, setError] = useState(true);
+    const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(true)
 
 
@@ -31,12 +29,13 @@ const PageContainer = ({ className }) => {
             return;
         }
 
-        dispatch(loadPostAsync(requestServer, params.id)).then((postData) => {
+        dispatch(loadPostAsync(params.id)).then((postData) => {
+            console.log(postData)
             setError(postData.error)
             setIsLoading(false)
 
         });
-    }, [dispatch, requestServer, params.id, isCreating]);
+    }, [dispatch, params.id, isCreating]);
 
     if (isLoading) {
         return null
