@@ -1,0 +1,1 @@
+export const getRoles = () => fetch("http://localhost:3033/roles").then((loaded) => loaded.json())
