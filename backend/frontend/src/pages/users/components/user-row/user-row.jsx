@@ -3,7 +3,7 @@ import { Icon } from "../../../../components";
 import { useDispatch } from "react-redux";
 import { TableRow } from "../table-row/table-row";
 import { useState } from "react";
-import { useServerRequest } from "../../../../hooks";
+import { request } from "../../../../utils/request";
 
 
 
@@ -16,7 +16,6 @@ const userRowContainer = ({
     roles,
     onUserRemove
 }) => {
-    const reqeustServer = useServerRequest()
 
     const [selectedRoleId, setSelectedRoleId] = useState(userRoleId);
     const [initialRoleId, setInitialRoleId] = useState(userRoleId)
@@ -29,7 +28,7 @@ const userRowContainer = ({
     const isSaveButton = selectedRoleId === initialRoleId;
 
     const onRoleSave = (userId, newUserRoleId) => {
-        reqeustServer("updateUserRole", userId, newUserRoleId)
+        request(`/users/${userId}`, "PATCH", { roleId: newUserRoleId })
 
         setInitialRoleId(newUserRoleId)
     }
